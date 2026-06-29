@@ -28,7 +28,7 @@ This project is built using a decoupled microservices architecture. It consists 
 
 To verify the algorithm's accuracy, the Python edge node automatically generates a visual diagnostic image on its first successful pass. 
 
-![Amazon ARMBench Vision Diagnostic Pipeline](armbench_diagnostic.png)
+![Amazon ARMBench Vision Diagnostic Pipeline](Visual-Monitor/armbench_diagnostic.png)
 
 * **Left (Raw Bin):** The raw, unstructured image of an Amazon tote filled with diverse consumer packaging.
 * **Right (CV Target Grid):** The output of the perception pipeline. The algorithm successfully ignores the blue bin and structural holes, drawing precise target coordinates exclusively around the packages.
