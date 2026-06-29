@@ -1,0 +1,5 @@
+opencv-python==4.9.0.80
+redis==5.0.3
+datasets==2.18.0
+pillow==10.2.0
+numpy==1.26.4

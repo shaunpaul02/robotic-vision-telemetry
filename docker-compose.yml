@@ -1,0 +1,62 @@
+services:
+  # LAYER 1: Redis Event Bus Broker
+  telemetry-broker:
+    image: redis:7.2-alpine
+    container_name: fleet_redis_broker
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_stream_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - pipeline_network
+
+  # LAYER 2: PostgreSQL Storage Layer
+  analytics-db:
+    image: postgres:16-alpine
+    container_name: fleet_postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: fleet_admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: fleet_matrix
+    volumes:
+      - postgres_relational_data:/var/lib/postgresql/data
+    networks:
+      - pipeline_network
+
+  # LAYER 3: Python Perception Application Container
+  edge-vision-node:
+    build: ./telemetry-producer
+    container_name: fleet_vision_edge
+    environment:
+      - REDIS_HOST=telemetry-broker
+    volumes:
+      - ./Visual-Monitor:/workspace_share
+    depends_on:
+      - telemetry-broker
+    networks:
+      - pipeline_network
+
+  # LAYER 4: Java Distributed Orchestrator Service
+  matrix-orchestration-engine:
+    build: ./matrix-orchestrator
+    container_name: fleet_java_orchestrator
+    environment:
+      - REDIS_HOST=telemetry-broker
+      - DB_HOST=analytics-db
+    depends_on:
+      - telemetry-broker
+      - analytics-db
+    networks:
+      - pipeline_network
+
+volumes:
+  redis_stream_data:
+  postgres_relational_data:
+  shared_workspace:
+
+networks:
+  pipeline_network:
+    driver: bridge

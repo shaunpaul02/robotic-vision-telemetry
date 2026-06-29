@@ -1,0 +1,15 @@
+# Python Environment
+.venv/
+__pycache__/
+*.pyc
+
+# Java & Maven Build Artifacts
+target/
+*.jar
+
+# IDE Settings
+.vscode/
+
+# OS Hidden Files
+.DS_Store
+Thumbs.db
