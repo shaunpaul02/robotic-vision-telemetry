@@ -60,7 +60,7 @@ while True:
                 
                 anomaly_flag = detected_item_count > 14 or max_bounding_area > 95000
                 
-                # --- OPTION C VISUALIZATION: GENERATE ONCE PER SESSION ---
+                # --- VISUALIZATION: GENERATE ONCE PER SESSION ---
                 if not diagnostic_saved and detected_item_count >= 3:
                     try:
                         print("[VISUALIZATION] Rendering session portfolio diagnostic snapshot...")
